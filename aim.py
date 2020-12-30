@@ -117,7 +117,7 @@ def menu():
                 pygame.draw.circle(screen, (red), (cx, cy), 10)
                 game_state = "game"
 
-#function for the game
+#function for the game when running
 def game():
     global game_state
     global running
