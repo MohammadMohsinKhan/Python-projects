@@ -4,6 +4,7 @@ import random
 from pygame.locals import *
 pygame.init()
 pygame.display.set_caption("Flappy Bird")
+clock = pygame.time.Clock()
 
 # RGB value for colours.
 white = (255, 255, 255)
