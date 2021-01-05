@@ -1,4 +1,3 @@
-# if bx reaches 0 do blocks again
 # initialize libraries
 import pygame
 import random
