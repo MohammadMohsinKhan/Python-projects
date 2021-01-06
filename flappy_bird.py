@@ -65,6 +65,11 @@ def lose():
 def menu():
     global score
     global game_state
+    global by, bx, bdt
+
+    by = random.randint(100,h - 100)
+    bx = w-100
+    bdt = -2.5
     
     screen.fill(white)
 
