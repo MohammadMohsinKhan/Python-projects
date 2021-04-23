@@ -113,7 +113,7 @@ def game():
     
     while x <= length:
         if coord[-1] == coord[-x] and coord[-2] == coord[-x-1]:
-            game_state = "ALLAH HU AKBAR"
+            game_state = "end"
         x = x + 2
 
     if px - 5 <= coord[-2] + 5 <= px + 15 and py - 5 <= coord[-1] + 5 <= py + 15:
@@ -146,7 +146,7 @@ while running:
     if game_state == 'game':
         game()
     
-    elif game_state == "ALLAH HU AKBAR":
+    elif game_state == "end":
         end()
     
     key = pygame.key.get_pressed()
