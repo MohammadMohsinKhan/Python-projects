@@ -22,6 +22,17 @@ w = 960
 h = 540
 screen = pygame.display.set_mode([w, h])
 screen.fill(white)
+Frame_1 = pygame.image.load(r'C:\Users\97156\Downloads\Flappy grumpy bird game character\PNG\Frame-1.png').convert_alpha()
+Frame_2 = pygame.image.load(r'C:\Users\97156\Downloads\Flappy grumpy bird game character\PNG\Frame-2.png').convert_alpha()
+Frame_3 = pygame.image.load(r'C:\Users\97156\Downloads\Flappy grumpy bird game character\PNG\Frame-3.png').convert_alpha()
+Frame_4 = pygame.image.load(r'C:\Users\97156\Downloads\Flappy grumpy bird game character\PNG\Frame-4.png').convert_alpha()
+s1_image = pygame.transform.scale(Frame_1,(50,43)).convert_alpha()
+s2_image = pygame.transform.scale(Frame_2,(50,43)).convert_alpha()
+s3_image = pygame.transform.scale(Frame_3,(50,43)).convert_alpha()
+s4_image = pygame.transform.scale(Frame_4,(50,43)).convert_alpha()
+frame_data = [s1_image,s1_image,s1_image,s2_image,s2_image,s2_image,s3_image,s3_image,s3_image,s4_image,s4_image,s4_image]
+frame_ind = 0
+
 
 #coordinates to generate the blocks
 by = random.randint(100,h - 100)
@@ -46,30 +57,33 @@ fy = w//3
 #motion of the bird
 dx = 0
 dy = 1.8
+acceleration = 0.15
 
 #function to decide whether you have lost the game
 def lose():
     global bx,fx,by
 
     if bx <= fx <= bx + 100: #bird touches the obstacle
-        if  by + 8 <= fy <= by + 72:
+        if  by <= fy <= by + 60:
             return False
         else:
             return True
-    elif fy < 10: #bird touches the ceiling 
-        return False
-    elif fy > w-10: #bird touches the ground
-        return False
+    if fy < 20: #bird touches the ceiling 
+        return True
+    if fy > h-20: #bird touches the ground
+        return True
 
 #function for the game start menu screen
 def menu():
     global score
     global game_state
-    global by, bx, bdt
+    global by, bx, bdt, fy, dy
 
     by = random.randint(100,h - 100)
     bx = w-100
     bdt = -2.5
+    fy = h//2
+    dy = 1.8
     
     screen.fill(white)
 
@@ -115,22 +129,24 @@ def game():
     global game_state
     global score
     global bdt
+    global frame_ind
 
     bx = bx + bdt
+    dy += acceleration
     
     if bx < w // 20: #adds a point to the user's score if he manages to go through the obstacle and increases the speed
         screen.fill(white)
         by = random.randint(100,h - 100)
         score += 1
-        bdt -= 0.1
+        bdt -= 0.2
         bx = w - 100
         
-    
+    screen.fill(white)
+
     blocks() #calls the function to generate blocks
     
     #generates white rectangle to cover up the previously drawn shapes from the bird and obstacle 
     pygame.draw.rect(screen, (white), (bx + 100, 0, 100, 960 ))
-    pygame.draw.rect(screen, (white ), (fx - 10, fy - 10, 20, 20 ))
     
     key = pygame.key.get_pressed()
     if key[pygame.K_ESCAPE]:
@@ -140,16 +156,21 @@ def game():
     for event in events:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                fy = max(0, fy - 40)
+                dy = -3
 
     fy = min(540, fy+dy) #movement of the bird
     
     display_text(str(score), (black), w//2, 30)
     
-    pygame.draw.circle(screen, (yellow), (fx, fy), 10)
+    #pygame.draw.circle(screen, (yellow), (fx, fy), 10)
+    screen.blit(frame_data[frame_ind], (fx,fy))
     
     if lose():
         game_state = 'results'
+
+    frame_ind += 1
+    if frame_ind == len(frame_data)-1:
+        frame_ind = 0
     
 def results():
     global game_state
