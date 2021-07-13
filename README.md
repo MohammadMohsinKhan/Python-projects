@@ -1,2 +1,2 @@
 # Projects
-Personal projects which I have worked on.
+Python projects which I have worked on by myself.
